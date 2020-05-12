@@ -2,6 +2,8 @@ package com.example.worldatlas.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.worldatlas.repository.CountriesRepository
+import com.example.worldatlas.repository.CountriesRepositoryImpl
 import com.example.worldatlas.repository.database.CountryDatabase
 import com.example.worldatlas.repository.remote.CountriesApiService
 import com.example.worldatlas.repository.remote.NoInternetConnectionInterceptor
@@ -16,12 +18,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModule = module {
-    viewModel { WorldAtlasViewModel() }
+    viewModel { WorldAtlasViewModel(get()) }
 }
 
 val repositoryModule = module {
     single { provideRetrofit(androidContext()) }
     single { provideDatabase(androidContext()) }
+    single { CountriesRepositoryImpl(get(), get()) }
 }
 
 private fun provideRetrofit(context: Context) = Retrofit.Builder()
