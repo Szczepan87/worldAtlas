@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentSplashScreenBinding
 import org.koin.android.ext.android.get
 
-/**
- * A simple [Fragment] subclass.
- */
 class SplashScreenFragment : Fragment() {
 
     private val worldAtlasViewModel: WorldAtlasViewModel = get()
@@ -30,5 +30,24 @@ class SplashScreenFragment : Fragment() {
             viewModel = worldAtlasViewModel
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        worldAtlasViewModel.updateCountriesDatabase()
+        worldAtlasViewModel.updateCountriesList()
+
+        worldAtlasViewModel.exception.observe(viewLifecycleOwner, Observer {
+            // TODO launch dialog with error info and dismiss app
+        })
+
+        worldAtlasViewModel.countries.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) {
+                val action =
+                    SplashScreenFragmentDirections.actionSplashScreenFragmentToContinentFragment()
+                findNavController().navigate(action)
+            }
+        })
     }
 }

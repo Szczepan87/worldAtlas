@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.worldatlas.model.Country
 import com.example.worldatlas.repository.database.CountryDatabase
 import com.example.worldatlas.repository.remote.CountriesApiService
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
 import java.lang.Exception
@@ -22,7 +24,7 @@ class CountriesRepositoryImpl(
         val countries: Response<List<Country>> =
             countriesApiService.getAllCountries().await()
         if (countries.isSuccessful) {
-            countryDao.upsert(countries.body() ?: listOf<Country>())
+            GlobalScope.launch { countries.body()?.forEach { countryDao.upsert(it) } }
         }
     }
 

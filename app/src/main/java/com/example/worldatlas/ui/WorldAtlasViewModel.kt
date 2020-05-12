@@ -3,11 +3,12 @@ package com.example.worldatlas.ui
 import androidx.lifecycle.*
 import com.example.worldatlas.model.Country
 import com.example.worldatlas.repository.CountriesRepository
+import com.example.worldatlas.repository.CountriesRepositoryImpl
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.lang.Exception
 
-class WorldAtlasViewModel(private val countriesRepository: CountriesRepository) : ViewModel() {
+class WorldAtlasViewModel(private val countriesRepository: CountriesRepositoryImpl) : ViewModel() {
 
     private val _countries = MutableLiveData<List<Country>>()
     val countries: LiveData<List<Country>>
