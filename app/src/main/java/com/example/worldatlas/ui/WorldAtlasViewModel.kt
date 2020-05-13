@@ -1,5 +1,6 @@
 package com.example.worldatlas.ui
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.worldatlas.model.Country
 import com.example.worldatlas.repository.CountriesRepository
@@ -19,10 +20,12 @@ class WorldAtlasViewModel(private val countriesRepository: CountriesRepositoryIm
 
     private val countriesObserver = Observer<List<Country>> {
         _countries.postValue(it)
+        Log.d("UPDATING VM COUNTRIES OF", "${it.first()}")
     }
 
     fun updateCountriesList() {
-        viewModelScope.launch { countriesRepository.retrieveCountriesFromDatabase() }
+        viewModelScope.launch { countriesRepository.retrieveCountriesFromDatabase()
+        Log.d("VIEW MODEL COUNTRIES DATA FIRST ENTRY", "{${countriesRepository.allCountries.value?.first()}}")}
         countriesRepository.allCountries.observeForever { countriesObserver }
     }
 

@@ -1,5 +1,6 @@
 package com.example.worldatlas.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.worldatlas.model.Country
@@ -12,7 +13,7 @@ import java.io.IOException
 import java.lang.Exception
 
 class CountriesRepositoryImpl(
-    private val countryDatabase: CountryDatabase,
+    countryDatabase: CountryDatabase,
     private val countriesApiService: CountriesApiService
 ) : CountriesRepository {
     private val countryDao = countryDatabase.getCountryDao()
@@ -24,11 +25,13 @@ class CountriesRepositoryImpl(
         val countries: Response<List<Country>> =
             countriesApiService.getAllCountries().await()
         if (countries.isSuccessful) {
-            GlobalScope.launch { countries.body()?.forEach { countryDao.upsert(it) } }
+            GlobalScope.launch { countries.body()?.forEach { countryDao.upsert(it)
+            Log.d("REPOSITORY UPDATING DB WITH", "${it.name}")} }
         }
     }
 
     override suspend fun retrieveCountriesFromDatabase() {
-        _allCountries.postValue(countryDatabase.getCountryDao().getAllCountries().value)
+        _allCountries.postValue(countryDao.getAllCountries().value)
+        Log.d("REPOSITORY RETRIEVING FROM DB", "${countryDao.getAllCountries().value?.first()}")
     }
 }
