@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.example.worldatlas.repository.CountriesRepository
 import com.example.worldatlas.repository.CountriesRepositoryImpl
+import com.example.worldatlas.repository.database.CountryDataFromDatabaseProviderImpl
 import com.example.worldatlas.repository.database.CountryDatabase
 import com.example.worldatlas.repository.remote.CountriesApiService
+import com.example.worldatlas.repository.remote.CountryDataFromNetworkProviderImpl
 import com.example.worldatlas.repository.remote.NoInternetConnectionInterceptor
 import com.example.worldatlas.ui.WorldAtlasViewModel
 import com.example.worldatlas.utils.COUNTRIES_BASE_URL
@@ -24,6 +26,8 @@ val viewModelModule = module {
 val repositoryModule = module {
     single { provideRetrofit(androidContext()) }
     single { provideDatabase(androidContext()) }
+    single { CountryDataFromNetworkProviderImpl(get()) }
+    single { CountryDataFromDatabaseProviderImpl(get()) }
     single { CountriesRepositoryImpl(get(), get()) }
 }
 

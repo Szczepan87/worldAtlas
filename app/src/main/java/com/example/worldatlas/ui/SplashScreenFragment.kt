@@ -51,6 +51,7 @@ class SplashScreenFragment : Fragment() {
                 val action =
                     SplashScreenFragmentDirections.actionSplashScreenFragmentToContinentFragment()
                 findNavController().navigate(action)
+                Log.d("MOVED TO CONTINENT","FRAGMENT")
             }
         })
     }
