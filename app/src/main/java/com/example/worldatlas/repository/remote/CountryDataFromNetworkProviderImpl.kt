@@ -11,6 +11,7 @@ class CountryDataFromNetworkProviderImpl(private val countriesApiService: Countr
         get() = _countriesFromNetwork
 
     override suspend fun retrieveCountryDataFromNetwork() {
-        _countriesFromNetwork.postValue(countriesApiService.getAllCountries().await().body())
+        val downloadedCountryData = countriesApiService.getAllCountries().await().body()
+        _countriesFromNetwork.postValue(downloadedCountryData)
     }
 }

@@ -8,7 +8,7 @@ interface CountriesRepository {
 
     val allCountries: LiveData<List<Country>>
 
-    suspend fun updateCountriesDatabase()
+    suspend fun fetchCountriesInformation()
 
     suspend fun retrieveCountriesFromDatabase()
 }

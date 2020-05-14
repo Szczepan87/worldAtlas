@@ -11,7 +11,7 @@ import com.example.worldatlas.model.Country
 interface CountryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(country: List<Country>)
+    fun upsert(country: Country)
 
     @Query("SELECT * FROM country ORDER BY name")
     fun getAllCountries(): LiveData<List<Country>>

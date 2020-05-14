@@ -13,9 +13,11 @@ import androidx.navigation.fragment.findNavController
 
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentSplashScreenBinding
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
+import org.koin.android.scope.lifecycleScope
 
-class SplashScreenFragment : Fragment() {
+class SplashScreenFragment : ScopedFragment() {
 
     private val worldAtlasViewModel: WorldAtlasViewModel = get()
     private lateinit var binding: FragmentSplashScreenBinding
@@ -36,23 +38,24 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        worldAtlasViewModel.updateCountriesDatabase()
-        worldAtlasViewModel.updateCountriesList()
+        launch {
+            val allCountries = worldAtlasViewModel.countries.await()
 
-        Log.d("FRAGMENT VM LIST FIRST ENTRY","${worldAtlasViewModel.countries.value?.first()}")
-        Log.d("FRAGMENT DATABASE ERROR","${worldAtlasViewModel.exception.value?.message}")
+            allCountries.observe(viewLifecycleOwner, Observer {
+                if (!it.isNullOrEmpty()) {
+                    val action =
+                        SplashScreenFragmentDirections.actionSplashScreenFragmentToContinentFragment()
+                    findNavController().navigate(action)
+                    Log.d("MOVED TO CONTINENT", "FRAGMENT")
+                    Log.d("FRAGMENT VM LIST FIRST ENTRY", "${allCountries.value?.first()}")
+                }
+            })
+        }
+
+        Log.d("FRAGMENT DATABASE ERROR", "${worldAtlasViewModel.exception.value?.message}")
 
         worldAtlasViewModel.exception.observe(viewLifecycleOwner, Observer {
             // TODO launch dialog with error info and dismiss app
-        })
-
-        worldAtlasViewModel.countries.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
-                val action =
-                    SplashScreenFragmentDirections.actionSplashScreenFragmentToContinentFragment()
-                findNavController().navigate(action)
-                Log.d("MOVED TO CONTINENT","FRAGMENT")
-            }
         })
     }
 }

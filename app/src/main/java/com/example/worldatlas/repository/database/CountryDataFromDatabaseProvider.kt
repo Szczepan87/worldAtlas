@@ -7,7 +7,7 @@ interface CountryDataFromDatabaseProvider {
 
     val countriesFromDatabase: LiveData<List<Country>>
 
-    suspend fun updateAndNotifyDatabase(vararg country: List<Country>)
+    suspend fun updateAndNotifyDatabase(countries: List<Country>)
 
     suspend fun retrieveCountriesFromDatabase()
 }
