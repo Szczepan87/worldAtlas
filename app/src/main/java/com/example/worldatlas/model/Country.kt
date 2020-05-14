@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName
 
 @Entity( tableName = "country")
 data class Country(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     @SerializedName("alpha2Code")
     val alpha2Code: String?,
     @SerializedName("alpha3Code")
@@ -57,7 +59,4 @@ data class Country(
     val topLevelDomain: List<String>?,
     @SerializedName("translations")
     val translations: Translations?
-){
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+)
