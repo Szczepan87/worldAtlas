@@ -14,7 +14,7 @@ interface CountryDao {
     fun upsert(country: Country)
 
     @Query("SELECT * FROM country ORDER BY name")
-    fun getAllCountries(): LiveData<List<Country>>
+    fun getAllCountries(): List<Country>
 
     @Query("SELECT * FROM country WHERE region = :continentName")
     fun getAllCountriesFromContinent(continentName: String): LiveData<List<Country>>

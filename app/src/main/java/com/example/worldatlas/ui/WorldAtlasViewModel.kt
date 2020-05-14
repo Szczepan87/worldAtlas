@@ -26,7 +26,6 @@ class WorldAtlasViewModel(private val countriesRepository: CountriesRepositoryIm
             } catch (e: IOException) {
                 _exception.postValue(e)
             }
-//            countriesRepository.retrieveCountriesFromDatabase()
         }
     }
 }
