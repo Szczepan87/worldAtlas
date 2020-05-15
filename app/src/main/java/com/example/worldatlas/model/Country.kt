@@ -1,16 +1,12 @@
 package com.example.worldatlas.model
 
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.worldatlas.utils.empty
 import com.google.gson.annotations.SerializedName
 
 @Entity( tableName = "country")
 data class Country(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
     @SerializedName("alpha2Code")
     val alpha2Code: String?,
     @SerializedName("alpha3Code")
@@ -39,8 +35,9 @@ data class Country(
     val languages: List<Language>?,
     @SerializedName("latlng")
     val latlng: List<Double>?,
+    @PrimaryKey
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("nativeName")
     val nativeName: String?,
     @SerializedName("numericCode")

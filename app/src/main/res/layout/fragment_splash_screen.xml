@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,16 +10,39 @@
             type="com.example.worldatlas.ui.WorldAtlasViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/splash_screen_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.SplashScreenFragment">
+        android:background="@color/colorSplashScreenBackground">
 
-        <!-- TODO: Update blank fragment layout -->
+
+        <ImageView
+            android:id="@+id/splash_screen_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/the_earth_seen_from_apollo_17" />
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="SPLASH SCREEN" />
+            android:id="@+id/textView"
+            style="@style/TextAppearance.MaterialComponents.Headline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading_data"
+            app:layout_constraintBottom_toBottomOf="@+id/splash_screen_imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/splash_screen_guideline" />
 
-    </FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/splash_screen_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
