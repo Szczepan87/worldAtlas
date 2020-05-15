@@ -9,4 +9,5 @@
     <string name="asia">Asia</string>
     <string name="europe">Europe</string>
     <string name="oceania">Oceania</string>
+    <string name="select_continent">Select continent</string>
 </resources>

@@ -11,67 +11,77 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
+        android:id="@+id/continents_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.ContinentFragment">
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/continents_group_buttons"
+        <com.google.android.material.appbar.MaterialToolbar
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/select_continent" />
+
+        <Button
+            android:id="@+id/africa_button"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/africa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/continents_guideline" />
+
+        <Button
+            android:id="@+id/americas_button"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/americas"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/africa_button" />
+
+        <Button
+            android:id="@+id/asia_button"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/asia"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/americas_button" />
+
+        <Button
+            android:id="@+id/europe_button"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/europe"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/asia_button" />
+
+        <Button
+            android:id="@+id/oceania_button"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/oceania"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/europe_button" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/continents_guideline"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/africa_button"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/africa"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/americas_button"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/americas"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/africa_button" />
-
-            <Button
-                android:id="@+id/asia_button"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/asia"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/americas_button" />
-
-            <Button
-                android:id="@+id/europe_button"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/europe"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/asia_button" />
-
-            <Button
-                android:id="@+id/oceania_button"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/oceania"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/europe_button" />
-
-        </androidx.constraintlayout.widget.Group>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
