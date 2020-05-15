@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -7,18 +8,107 @@
         <variable
             name="viewModel"
             type="com.example.worldatlas.ui.WorldAtlasViewModel" />
+
+        <variable
+            name="country"
+            type="com.example.worldatlas.model.Country" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/country_details_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.CountryDetailsFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+        <ImageView
+            android:id="@+id/country_details_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_background" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/country_details_name_textView"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{country.name}"
+            app:layout_constraintBottom_toTopOf="@+id/country_details_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_details_flag" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/country_details_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <TextView
+            android:id="@+id/capital_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/capital"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/country_details_guideline" />
+
+        <TextView
+            android:id="@+id/capital_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{country.capital}"
+            app:layout_constraintStart_toEndOf="@+id/capital_title_textView"
+            app:layout_constraintTop_toTopOf="@+id/capital_title_textView" />
+
+        <TextView
+            android:id="@+id/population_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/population"
+            app:layout_constraintStart_toStartOf="@+id/capital_title_textView"
+            app:layout_constraintTop_toBottomOf="@+id/capital_title_textView" />
+
+        <TextView
+            android:id="@+id/population_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{String.valueOf(country.population)}"
+            app:layout_constraintStart_toEndOf="@+id/population_title_textView"
+            app:layout_constraintTop_toBottomOf="@+id/capital_title_textView" />
+
+        <TextView
+            android:id="@+id/area_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/area"
+            app:layout_constraintStart_toStartOf="@+id/population_title_textView"
+            app:layout_constraintTop_toBottomOf="@+id/population_title_textView" />
+
+        <TextView
+            android:id="@+id/area_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{String.valueOf(country.area)}"
+            app:layout_constraintStart_toEndOf="@+id/area_title_textView"
+            app:layout_constraintTop_toBottomOf="@+id/population_title_textView" />
+
+        <!-- Timezones, borders, currencies, languages needs binding adapter to display correctly -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
