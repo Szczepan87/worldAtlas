@@ -16,14 +16,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.ContinentFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+        <include
+            android:id="@+id/continents_toolbar"
+            layout="@layout/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/select_continent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/africa_button"
