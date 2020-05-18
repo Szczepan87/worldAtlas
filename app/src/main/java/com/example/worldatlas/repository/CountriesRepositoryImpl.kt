@@ -10,6 +10,7 @@ import com.example.worldatlas.repository.remote.CountryDataFromNetworkProviderIm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CountriesRepositoryImpl(
     private val countryDataFromDatabaseProviderImpl: CountryDataFromDatabaseProviderImpl,
@@ -18,16 +19,18 @@ class CountriesRepositoryImpl(
     private val _allCountries = MutableLiveData<List<Country>>()
     override val allCountries: LiveData<List<Country>>
         get() = _allCountries
+    private val _countriesByContinent = MutableLiveData<List<Country>>()
+    override val countriesByContinent: LiveData<List<Country>>
+        get() = _countriesByContinent
 
     init {
         countryDataFromNetworkProviderImpl.countriesFromNetwork.observeForever(Observer {
             updateCountriesDatabase(it)
-            Log.d("REPOSITORY NETWORK OBSERVER","TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
+            Log.d("REPOSITORY NETWORK OBSERVER", "TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
         })
         countryDataFromDatabaseProviderImpl.countriesFromDatabase.observeForever(Observer {
-            Log.d("REPOSITORY DATABASE OBSERVER","TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
+            Log.d("REPOSITORY DATABASE OBSERVER", "TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
             _allCountries.postValue(it)
-            // Log.d("REPOSITORY DATABASE OBSERVER","TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
         })
         Log.d("REPOSITORY", "INIT BLOC CALLED")
     }
@@ -39,15 +42,14 @@ class CountriesRepositoryImpl(
         }
     }
 
-    override suspend fun retrieveCountriesFromDatabase() {
-//        countryDataFromDatabaseProviderImpl.countriesFromDatabase.observeForever(
-//            Observer { _allCountries.postValue(it)
-        Log.d("---------------REPOSITORY--------------------", "MUTABLE LIVE DATA UPDATED BY X ELEMENTS")
-    }
-
-
     override suspend fun fetchCountriesInformation() {
         countryDataFromNetworkProviderImpl.retrieveCountryDataFromNetwork()
         Log.d("REPOSITORY", "CALLED RETRIEVAL FROM REMOTE DATA SOURCE ")
+    }
+
+    override suspend fun fetchCountriesInformationByContinent(continentName: String) {
+        countryDataFromDatabaseProviderImpl.countriesFromDatabaseByContinent(continentName)
+        Log.d("REPOSITORY", "CALLED RETRIEVAL FROM DATABASE BY COUNTRY")
+
     }
 }
