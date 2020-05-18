@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_countriesFragment_to_countryDetailsFragment"
             app:destination="@id/countryDetailsFragment" />
+        <argument
+            android:name="continent"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/countryDetailsFragment"

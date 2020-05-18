@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentContinentBinding
+import com.example.worldatlas.utils.*
 import org.koin.android.ext.android.get
 
 /**
@@ -29,5 +31,22 @@ class ContinentFragment : Fragment() {
             viewModel = worldAtlasViewModel
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding){
+            africaButton.setOnClickListener { setNavigationActionOnButton(AFRICA) }
+            americasButton.setOnClickListener { setNavigationActionOnButton(AMERICAS) }
+            asiaButton.setOnClickListener { setNavigationActionOnButton(ASIA) }
+            europeButton.setOnClickListener { setNavigationActionOnButton(EUROPE) }
+            oceaniaButton.setOnClickListener { setNavigationActionOnButton(OCEANIA) }
+        }
+    }
+
+    private fun setNavigationActionOnButton(continentName: String){
+        val action = ContinentFragmentDirections.actionContinentFragmentToCountriesFragment(continentName)
+        findNavController().navigate(action)
     }
 }
