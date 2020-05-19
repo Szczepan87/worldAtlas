@@ -33,12 +33,12 @@ class CountriesRepositoryImpl(
                 saveCountriesToDatabase(remoteList)
                 Log.d("REPOSITORY", "UPDATING DATABASE WITH: ${remoteList.first().name}")
             }
-            val listFromDatabase =
-                withContext(IO) { countriesDao.getAllCountries().value
+            val listFromDatabase:List<Country> =
+                withContext(IO) { getCountriesListDatabase()
                 }
             _allCountries.postValue(listFromDatabase)
             Log.d("REPOSITORY", "RETRIEVING DATA FROM DATABASE")
-            Log.d("REPOSITORY", "FIRST ENTRY IN DATABASE IS ${listFromDatabase?.first()?.name}")
+            Log.d("REPOSITORY", "FIRST ENTRY IN DATABASE IS ${listFromDatabase.first()?.name}")
         }
         Log.d("REPOSITORY", "INIT BLOC CALLED")
     }
@@ -58,6 +58,6 @@ class CountriesRepositoryImpl(
     private suspend fun getCountriesListDatabase(): List<Country> =
         withContext(IO) {
             Log.d("REPOSITORY", "getCountriesListDatabase() CALLED")
-            return@withContext countriesDao.getAllCountries().value ?: listOf()
+            countriesDao.getAllCountries()
         }
 }
