@@ -17,26 +17,9 @@ class WorldAtlasViewModel(private val countriesRepository: CountriesRepositoryIm
     val exception: LiveData<Exception>
         get() = _exception
 
-    init {
-        initializeData()
-    }
-
-    private fun initializeData() {
-        // TODO make different when database is empty
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                countriesRepository.fetchCountriesInformation()
-            } catch (e: IOException) {
-                _exception.postValue(e)
-            }
-        }
-    }
-
     fun getCountriesByContinent(continentName: String) {
         viewModelScope.launch {
-            countriesRepository.fetchCountriesInformationByContinent(
-                continentName
-            )
+            // get list by continent
         }
         // call repository and update by continent ok
         // observe live data changes in Fragment

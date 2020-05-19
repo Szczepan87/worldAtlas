@@ -1,5 +1,6 @@
 package com.example.worldatlas.repository.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,8 +14,5 @@ interface CountryDao {
     fun upsert(country: Country)
 
     @Query("SELECT * FROM country ORDER BY name")
-    fun getAllCountries(): List<Country>
-
-    @Query("SELECT * FROM country WHERE region = :continentName")
-    fun getAllCountriesFromContinent(continentName: String): List<Country>
+    fun getAllCountries(): LiveData<List<Country>>
 }

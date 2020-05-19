@@ -5,16 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.worldatlas.model.Country
-import com.example.worldatlas.repository.database.CountryDataFromDatabaseProviderImpl
-import com.example.worldatlas.repository.remote.CountryDataFromNetworkProviderImpl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.worldatlas.repository.database.CountryDatabase
+import com.example.worldatlas.repository.remote.CountriesApiService
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import java.io.IOException
 
 class CountriesRepositoryImpl(
-    private val countryDataFromDatabaseProviderImpl: CountryDataFromDatabaseProviderImpl,
-    private val countryDataFromNetworkProviderImpl: CountryDataFromNetworkProviderImpl
+    private val countriesApiService: CountriesApiService,
+    countriesDatabase: CountryDatabase
 ) : CountriesRepository {
     private val _allCountries = MutableLiveData<List<Country>>()
     override val allCountries: LiveData<List<Country>>
@@ -22,34 +21,43 @@ class CountriesRepositoryImpl(
     private val _countriesByContinent = MutableLiveData<List<Country>>()
     override val countriesByContinent: LiveData<List<Country>>
         get() = _countriesByContinent
+    private val countriesDao = countriesDatabase.getCountryDao()
 
     init {
-        countryDataFromNetworkProviderImpl.countriesFromNetwork.observeForever(Observer {
-            updateCountriesDatabase(it)
-            Log.d("REPOSITORY NETWORK OBSERVER", "TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
-        })
-        countryDataFromDatabaseProviderImpl.countriesFromDatabase.observeForever(Observer {
-            Log.d("REPOSITORY DATABASE OBSERVER", "TRIGGERED WITH LIST OF ${it.size} ELEMENTS")
-            _allCountries.postValue(it)
-        })
+        CoroutineScope(IO).launch {
+            val isDatabaseEmpty =
+                withContext(IO) { getCountriesListDatabase().isEmpty() }
+            if (isDatabaseEmpty){
+                Log.d("REPOSITORY", "DATABASE IS EMPTY!!!")
+                val remoteList = getCountriesListFromApi()
+                saveCountriesToDatabase(remoteList)
+                Log.d("REPOSITORY", "UPDATING DATABASE WITH: ${remoteList.first().name}")
+            }
+            val listFromDatabase =
+                withContext(IO) { countriesDao.getAllCountries().value
+                }
+            _allCountries.postValue(listFromDatabase)
+            Log.d("REPOSITORY", "RETRIEVING DATA FROM DATABASE")
+            Log.d("REPOSITORY", "FIRST ENTRY IN DATABASE IS ${listFromDatabase?.first()?.name}")
+        }
         Log.d("REPOSITORY", "INIT BLOC CALLED")
     }
 
-    private fun updateCountriesDatabase(listOfCountries: List<Country>) {
-        GlobalScope.launch(Dispatchers.IO) {
-            countryDataFromDatabaseProviderImpl.updateAndNotifyDatabase(listOfCountries)
-            Log.d("REPOSITORY", "DATABASE UPDATED WITH ${listOfCountries.size} ELEMENTS")
+    private fun getCountriesListFromApi(): List<Country> {
+        Log.d("REPOSITORY", "getCountriesListFromApi() CALLED")
+        val response = countriesApiService.getAllCountries().execute()
+        return if (response.isSuccessful) response.body()!! else throw IOException()
+    }
+
+    private fun saveCountriesToDatabase(countriesList: List<Country>) {
+        Log.d("REPOSITORY", "saveCountriesToDatabase() CALLED")
+        countriesList.forEach { countriesDao.upsert(it)
+            Log.d("REPOSITORY", "SAVING: ${it.name} TO DATABASE")}
+    }
+
+    private suspend fun getCountriesListDatabase(): List<Country> =
+        withContext(IO) {
+            Log.d("REPOSITORY", "getCountriesListDatabase() CALLED")
+            return@withContext countriesDao.getAllCountries().value ?: listOf()
         }
-    }
-
-    override suspend fun fetchCountriesInformation() {
-        countryDataFromNetworkProviderImpl.retrieveCountryDataFromNetwork()
-        Log.d("REPOSITORY", "CALLED RETRIEVAL FROM REMOTE DATA SOURCE ")
-    }
-
-    override suspend fun fetchCountriesInformationByContinent(continentName: String) {
-        countryDataFromDatabaseProviderImpl.countriesFromDatabaseByContinent(continentName)
-        Log.d("REPOSITORY", "CALLED RETRIEVAL FROM DATABASE BY COUNTRY")
-
-    }
 }
