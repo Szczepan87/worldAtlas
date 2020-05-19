@@ -18,9 +18,7 @@ class WorldAtlasViewModel(private val countriesRepository: CountriesRepositoryIm
         get() = _exception
 
     fun getCountriesByContinent(continentName: String) {
-        viewModelScope.launch {
-            // get list by continent
-        }
+            countriesRepository.retrieveCountriesByContinent(continentName)
         // call repository and update by continent ok
         // observe live data changes in Fragment
     }

@@ -3,12 +3,14 @@ package com.example.worldatlas.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.worldatlas.model.Country
 import com.example.worldatlas.repository.database.CountryDatabase
 import com.example.worldatlas.repository.remote.CountriesApiService
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class CountriesRepositoryImpl(
@@ -27,14 +29,15 @@ class CountriesRepositoryImpl(
         CoroutineScope(IO).launch {
             val isDatabaseEmpty =
                 withContext(IO) { getCountriesListDatabase().isEmpty() }
-            if (isDatabaseEmpty){
+            if (isDatabaseEmpty) {
                 Log.d("REPOSITORY", "DATABASE IS EMPTY!!!")
                 val remoteList = getCountriesListFromApi()
                 saveCountriesToDatabase(remoteList)
                 Log.d("REPOSITORY", "UPDATING DATABASE WITH: ${remoteList.first().name}")
             }
-            val listFromDatabase:List<Country> =
-                withContext(IO) { getCountriesListDatabase()
+            val listFromDatabase: List<Country> =
+                withContext(IO) {
+                    getCountriesListDatabase()
                 }
             _allCountries.postValue(listFromDatabase)
             Log.d("REPOSITORY", "RETRIEVING DATA FROM DATABASE")
@@ -51,8 +54,10 @@ class CountriesRepositoryImpl(
 
     private fun saveCountriesToDatabase(countriesList: List<Country>) {
         Log.d("REPOSITORY", "saveCountriesToDatabase() CALLED")
-        countriesList.forEach { countriesDao.upsert(it)
-            Log.d("REPOSITORY", "SAVING: ${it.name} TO DATABASE")}
+        countriesList.forEach {
+            countriesDao.upsert(it)
+            Log.d("REPOSITORY", "SAVING: ${it.name} TO DATABASE")
+        }
     }
 
     private suspend fun getCountriesListDatabase(): List<Country> =
@@ -60,4 +65,20 @@ class CountriesRepositoryImpl(
             Log.d("REPOSITORY", "getCountriesListDatabase() CALLED")
             countriesDao.getAllCountries()
         }
+
+    override fun retrieveCountriesByContinent(continentName: String) {
+        Log.d("REPOSITORY", "retrieveCountriesByContinent() CALLED")
+        CoroutineScope(IO).launch {
+            val countriesList =
+                withContext(IO) { getCountriesListDatabase() }
+            val filteredList =
+                withContext(Default) {
+                    countriesList.filter {
+                        it.region == continentName
+                    }
+                }
+            _countriesByContinent.postValue(filteredList)
+            Log.d("REPOSITORY", "POSTING TO COUNTRIES BY CONTINENT ${filteredList.first().name}")
+        }
+    }
 }

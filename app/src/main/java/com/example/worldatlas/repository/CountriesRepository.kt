@@ -10,4 +10,5 @@ interface CountriesRepository {
 
     val countriesByContinent: LiveData<List<Country>>
 
+    fun retrieveCountriesByContinent(continentName: String)
 }
