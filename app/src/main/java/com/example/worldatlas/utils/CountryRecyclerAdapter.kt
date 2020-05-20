@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.worldatlas.databinding.CountryCardBinding
 import com.example.worldatlas.model.Country
 
+typealias OnCountryClickListener = (Country) -> Unit
+
 class CountryRecyclerAdapter : RecyclerView.Adapter<CountryRecyclerAdapter.CountryViewHolder>() {
     private val countriesList = mutableListOf<Country>()
+    var onCountryClickListener: OnCountryClickListener? = null
 
     fun updateList(listOfCountries: List<Country>) {
         countriesList.addAll(listOfCountries)
@@ -31,6 +34,11 @@ class CountryRecyclerAdapter : RecyclerView.Adapter<CountryRecyclerAdapter.Count
 
         fun bind(countryItem: Country) {
             binding.country = countryItem
+            binding.countryCardLayout.setOnClickListener {
+                onCountryClickListener?.invoke(
+                    countryItem
+                )
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.example.worldatlas.R
@@ -61,12 +62,10 @@ class CountriesFragment : ScopedFragment() {
 
         binding.countriesRecycler.adapter = recyclerAdapter
 
-        binding.countriesLayout.setOnClickListener {
-            Toast.makeText(
-                this@CountriesFragment.context,
-                listOfContinentCountries.first().name,
-                Toast.LENGTH_SHORT
-            ).show()
+        recyclerAdapter.onCountryClickListener = {
+            Log.d("COUNTRIES FRAGMENT", "SENDING ${it.name} TO COUNTRIES DETAILS")
+            val action = CountriesFragmentDirections.actionCountriesFragmentToCountryDetailsFragment(it)
+            findNavController().navigate(action)
         }
     }
 }

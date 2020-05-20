@@ -1,8 +1,11 @@
 package com.example.worldatlas.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Translations(
     @SerializedName("br")
     val br: String,
@@ -18,4 +21,4 @@ data class Translations(
     val ja: String,
     @SerializedName("pt")
     val pt: String
-)
+) : Parcelable
