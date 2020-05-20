@@ -1,10 +1,13 @@
 package com.example.worldatlas.model
 
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity( tableName = "country")
 data class Country(
     @SerializedName("alpha2Code")
@@ -56,4 +59,4 @@ data class Country(
     val topLevelDomain: List<String>?,
     @SerializedName("translations")
     val translations: Translations?
-)
+) : Parcelable

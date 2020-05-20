@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.navArgs
 
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentCountryDetailsBinding
@@ -18,6 +19,7 @@ class CountryDetailsFragment : Fragment() {
 
     private val worldAtlasViewModel: WorldAtlasViewModel = get()
     private lateinit var binding: FragmentCountryDetailsBinding
+    private val arguments: CountryDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +30,7 @@ class CountryDetailsFragment : Fragment() {
         with(binding) {
             lifecycleOwner = this@CountryDetailsFragment
             viewModel = worldAtlasViewModel
+            binding.country = arguments.country
         }
         return binding.root
     }
