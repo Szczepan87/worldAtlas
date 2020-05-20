@@ -18,9 +18,9 @@ object BindingAdapters {
         val requestBuilder =
             GlideApp.with(this.context)
                 .`as`(PictureDrawable::class.java)
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.mipmap.ic_launcher_round)
-                .transition(withCrossFade())
+                .error(R.drawable.ic_error_red_200dp)
+                .override(200,100)
+                .centerInside()
                 .listener(SvgSoftwareLayerSetter())
 
         val uri = Uri.parse(imageUrl)
