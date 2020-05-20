@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentCountriesBinding
 import com.example.worldatlas.model.Country
+import com.example.worldatlas.utils.CountryRecyclerAdapter
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 
@@ -27,6 +28,7 @@ class CountriesFragment : ScopedFragment() {
     private lateinit var binding: FragmentCountriesBinding
     private val arguments: CountriesFragmentArgs by navArgs()
     private var listOfContinentCountries = mutableListOf<Country>()
+    private val recyclerAdapter = CountryRecyclerAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +54,12 @@ class CountriesFragment : ScopedFragment() {
 
             countriesByContinent.observe(viewLifecycleOwner, Observer {
                 listOfContinentCountries.addAll(it)
+                recyclerAdapter.updateList(it)
                 Log.d("COUNTRIES FRAGMENT", "ADDING TO LOCAL LIST")
             })
         }
+
+        binding.countriesRecycler.adapter = recyclerAdapter
 
         binding.countriesLayout.setOnClickListener {
             Toast.makeText(
