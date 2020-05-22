@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Timezones:"
+                android:text="@string/timezones"
                 app:layout_constraintStart_toStartOf="@+id/area_title_textView"
                 app:layout_constraintTop_toBottomOf="@+id/area_title_textView" />
 
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Time zones placeholder"
+                app:listOfElements="@{country.timezones}"
                 app:layout_constraintStart_toEndOf="@+id/timezones_titile_textView"
                 app:layout_constraintTop_toTopOf="@+id/timezones_titile_textView" />
 
@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Borders with: "
+                android:text="@string/borders_with"
                 app:layout_constraintStart_toStartOf="@+id/timezones_titile_textView"
                 app:layout_constraintTop_toBottomOf="@+id/timezones_array_textView" />
 
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Borders placeholder"
+                app:listOfElements="@{country.borders}"
                 app:layout_constraintStart_toEndOf="@+id/borders_title_textView"
                 app:layout_constraintTop_toTopOf="@+id/borders_title_textView" />
 
@@ -154,7 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Currencies:"
+                android:text="@string/currencies"
                 app:layout_constraintStart_toStartOf="@+id/borders_title_textView"
                 app:layout_constraintTop_toBottomOf="@+id/borders_array_textView" />
 
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Currencies placeholder"
+                app:listOfElements="@{country.currencies}"
                 app:layout_constraintStart_toEndOf="@+id/currencies_title_textView"
                 app:layout_constraintTop_toTopOf="@+id/currencies_title_textView" />
 
@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Languages:"
+                android:text="@string/languages"
                 app:layout_constraintStart_toStartOf="@+id/currencies_title_textView"
                 app:layout_constraintTop_toBottomOf="@+id/currencies_array_textView" />
 
@@ -181,11 +181,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Languages placeholder"
+                app:listOfElements="@{country.languages}"
                 app:layout_constraintStart_toEndOf="@+id/languages_title_textView"
                 app:layout_constraintTop_toTopOf="@+id/languages_title_textView" />
-
-            <!-- Timezones, borders, currencies, languages needs binding adapter to display correctly -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

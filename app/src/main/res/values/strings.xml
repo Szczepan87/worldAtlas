@@ -13,4 +13,8 @@
     <string name="capital">Capital:</string>
     <string name="area">Area:</string>
     <string name="population">Population:</string>
+    <string name="timezones">Timezones:</string>
+    <string name="borders_with">Borders with:</string>
+    <string name="currencies">Currencies:</string>
+    <string name="languages">Languages:</string>
 </resources>
