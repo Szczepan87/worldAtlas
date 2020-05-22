@@ -13,13 +13,13 @@ import java.text.ParseException
 class CountryTypeConverters {
 
     @TypeConverter
-    fun restoreCurrencyList(listOfCurrency: String?): List<Currency?>? {
-        return listOfCurrency.fromJson()
+    fun restoreObjectList(listOfObjects: List<*>): String {
+        return listOfObjects.toJson()
     }
 
     @TypeConverter
-    fun saveCurrencyList(listOfCurrency: List<Currency?>?): String? {
-        return listOfCurrency.toJson()
+    fun restoreCurrencyList(listOfCurrency: String?): List<Currency?>? {
+        return listOfCurrency.fromJson()
     }
 
     @TypeConverter
@@ -28,18 +28,8 @@ class CountryTypeConverters {
     }
 
     @TypeConverter
-    fun saveStringsList(listOfString: List<String?>?): String? {
-        return listOfString.toJson()
-    }
-
-    @TypeConverter
     fun restoreLanguagesList(listOfLanguages: String?): List<Language?>? {
         return listOfLanguages.fromJson()
-    }
-
-    @TypeConverter
-    fun saveLanguagesList(listOfLanguages: List<Language?>?): String? {
-        return listOfLanguages.toJson()
     }
 
     @TypeConverter
@@ -48,18 +38,8 @@ class CountryTypeConverters {
     }
 
     @TypeConverter
-    fun saveDoublesList(listOfDoubles: List<Double?>?): String? {
-        return listOfDoubles.toJson()
-    }
-
-    @TypeConverter
     fun restoreRegionalBlocksList(listOfRegionalBlocks: String?): List<RegionalBloc?>? {
         return listOfRegionalBlocks.fromJson()
-    }
-
-    @TypeConverter
-    fun saveRegionalBlocksList(listOfRegionalBlocks: List<RegionalBloc?>?): String? {
-        return listOfRegionalBlocks.toJson()
     }
 
     @TypeConverter
@@ -78,7 +58,7 @@ class CountryTypeConverters {
 }
 
 fun <T> List<T>?.toJson(): String {
-    return Gson().toJson(this)
+    return Gson().toJson(this) ?: ""
 }
 
 fun <T> String?.fromJson(): List<T> {
