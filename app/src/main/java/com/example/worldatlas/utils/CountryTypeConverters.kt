@@ -1,5 +1,6 @@
 package com.example.worldatlas.utils
 
+import android.util.Log
 import androidx.room.TypeConverter
 import com.example.worldatlas.model.Currency
 import com.example.worldatlas.model.Language
@@ -7,77 +8,58 @@ import com.example.worldatlas.model.RegionalBloc
 import com.example.worldatlas.model.Translations
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.ParseException
 
 class CountryTypeConverters {
 
     @TypeConverter
     fun restoreCurrencyList(listOfCurrency: String?): List<Currency?>? {
-        return Gson().fromJson(
-            listOfCurrency,
-            object :
-                TypeToken<List<Currency?>?>() {}.type
-        )
+        return listOfCurrency.fromJson()
     }
 
     @TypeConverter
     fun saveCurrencyList(listOfCurrency: List<Currency?>?): String? {
-        return Gson().toJson(listOfCurrency)
+        return listOfCurrency.toJson()
     }
 
     @TypeConverter
     fun restoreStringsList(listOfString: String?): List<String?>? {
-        return Gson().fromJson(
-            listOfString,
-            object :
-                TypeToken<List<String?>?>() {}.type
-        )
+        return listOfString.fromJson()
     }
 
     @TypeConverter
     fun saveStringsList(listOfString: List<String?>?): String? {
-        return Gson().toJson(listOfString)
+        return listOfString.toJson()
     }
 
     @TypeConverter
     fun restoreLanguagesList(listOfLanguages: String?): List<Language?>? {
-        return Gson().fromJson(
-            listOfLanguages,
-            object :
-                TypeToken<List<Language?>?>() {}.type
-        )
+        return listOfLanguages.fromJson()
     }
 
     @TypeConverter
     fun saveLanguagesList(listOfLanguages: List<Language?>?): String? {
-        return Gson().toJson(listOfLanguages)
+        return listOfLanguages.toJson()
     }
 
     @TypeConverter
     fun restoreDoublesList(listOfDoubles: String?): List<Double?>? {
-        return Gson().fromJson(
-            listOfDoubles,
-            object :
-                TypeToken<List<Double?>?>() {}.type
-        )
+        return listOfDoubles.fromJson()
     }
 
     @TypeConverter
     fun saveDoublesList(listOfDoubles: List<Double?>?): String? {
-        return Gson().toJson(listOfDoubles)
+        return listOfDoubles.toJson()
     }
 
     @TypeConverter
     fun restoreRegionalBlocksList(listOfRegionalBlocks: String?): List<RegionalBloc?>? {
-        return Gson().fromJson(
-            listOfRegionalBlocks,
-            object :
-                TypeToken<List<RegionalBloc?>?>() {}.type
-        )
+        return listOfRegionalBlocks.fromJson()
     }
 
     @TypeConverter
     fun saveRegionalBlocksList(listOfRegionalBlocks: List<RegionalBloc?>?): String? {
-        return Gson().toJson(listOfRegionalBlocks)
+        return listOfRegionalBlocks.toJson()
     }
 
     @TypeConverter
@@ -92,5 +74,18 @@ class CountryTypeConverters {
     @TypeConverter
     fun saveTranslationsList(translations: Translations?): String? {
         return Gson().toJson(translations)
+    }
+}
+
+fun <T> List<T>?.toJson(): String {
+    return Gson().toJson(this)
+}
+
+fun <T> String?.fromJson(): List<T> {
+    return try {
+        Gson().fromJson(this, object : TypeToken<List<T>>() {}.type)
+    } catch (e: ParseException) {
+        Log.d("TYPE CONVERTER", "${e.message}")
+        emptyList<T>()
     }
 }
