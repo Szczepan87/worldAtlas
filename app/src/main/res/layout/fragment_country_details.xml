@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.worldatlas.ui.WorldAtlasViewModel" />
-
-        <variable
             name="country"
             type="com.example.worldatlas.model.Country" />
     </data>
@@ -127,9 +123,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:listOfElements="@{country.timezones}"
                 app:layout_constraintStart_toEndOf="@+id/timezones_titile_textView"
-                app:layout_constraintTop_toTopOf="@+id/timezones_titile_textView" />
+                app:layout_constraintTop_toTopOf="@+id/timezones_titile_textView"
+                app:listOfStrings="@{country.timezones}" />
 
             <TextView
                 android:id="@+id/borders_title_textView"
@@ -145,9 +141,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:listOfElements="@{country.borders}"
                 app:layout_constraintStart_toEndOf="@+id/borders_title_textView"
-                app:layout_constraintTop_toTopOf="@+id/borders_title_textView" />
+                app:layout_constraintTop_toTopOf="@+id/borders_title_textView"
+                app:listOfStrings="@{country.borders}" />
 
             <TextView
                 android:id="@+id/currencies_title_textView"
@@ -163,9 +159,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:listOfElements="@{country.currencies}"
                 app:layout_constraintStart_toEndOf="@+id/currencies_title_textView"
-                app:layout_constraintTop_toTopOf="@+id/currencies_title_textView" />
+                app:layout_constraintTop_toTopOf="@+id/currencies_title_textView"
+                app:listOfCurrencies="@{country.currencies}" />
 
             <TextView
                 android:id="@+id/languages_title_textView"
@@ -181,9 +177,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:listOfElements="@{country.languages}"
                 app:layout_constraintStart_toEndOf="@+id/languages_title_textView"
-                app:layout_constraintTop_toTopOf="@+id/languages_title_textView" />
+                app:layout_constraintTop_toTopOf="@+id/languages_title_textView"
+                app:listOfLanguages="@{country.languages}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

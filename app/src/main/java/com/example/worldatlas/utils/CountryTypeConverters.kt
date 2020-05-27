@@ -13,13 +13,18 @@ import java.text.ParseException
 class CountryTypeConverters {
 
     @TypeConverter
-    fun restoreObjectList(listOfObjects: List<*>): String {
+    fun saveObjectList(listOfObjects: List<*>): String {
         return listOfObjects.toJson()
     }
 
     @TypeConverter
     fun restoreCurrencyList(listOfCurrency: String?): List<Currency?>? {
-        return listOfCurrency.fromJson()
+        return try {
+            Gson().fromJson(listOfCurrency, object : TypeToken<List<Currency>>() {}.type)
+        } catch (e: ParseException) {
+            Log.d("TYPE CONVERTER", "${e.message}")
+            emptyList<Currency>()
+        }
     }
 
     @TypeConverter
@@ -29,17 +34,32 @@ class CountryTypeConverters {
 
     @TypeConverter
     fun restoreLanguagesList(listOfLanguages: String?): List<Language?>? {
-        return listOfLanguages.fromJson()
+        return try {
+            Gson().fromJson(listOfLanguages, object : TypeToken<List<Language>>() {}.type)
+        } catch (e: ParseException) {
+            Log.d("TYPE CONVERTER", "${e.message}")
+            emptyList<Language>()
+        }
     }
 
     @TypeConverter
     fun restoreDoublesList(listOfDoubles: String?): List<Double?>? {
-        return listOfDoubles.fromJson()
+        return try {
+            Gson().fromJson(listOfDoubles, object : TypeToken<List<Double>>() {}.type)
+        } catch (e: ParseException) {
+            Log.d("TYPE CONVERTER", "${e.message}")
+            emptyList<Double>()
+        }
     }
 
     @TypeConverter
     fun restoreRegionalBlocksList(listOfRegionalBlocks: String?): List<RegionalBloc?>? {
-        return listOfRegionalBlocks.fromJson()
+        return try {
+            Gson().fromJson(listOfRegionalBlocks, object : TypeToken<List<RegionalBloc>>() {}.type)
+        } catch (e: ParseException) {
+            Log.d("TYPE CONVERTER", "${e.message}")
+            emptyList<RegionalBloc>()
+        }
     }
 
     @TypeConverter

@@ -10,6 +10,7 @@ import com.example.worldatlas.model.Currency
 import com.example.worldatlas.model.Language
 import com.example.worldatlas.utils.svg.GlideApp
 import com.example.worldatlas.utils.svg.SvgSoftwareLayerSetter
+import com.google.gson.internal.LinkedTreeMap
 
 object BindingAdapters {
 
@@ -31,15 +32,31 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("listOfElements")
-    fun TextView.listOfElements(listOfElements: List<*>) {
+    @BindingAdapter("listOfStrings")
+    fun TextView.listOfStrings(listOfStrings: List<String>) {
         val textToDisplay = StringBuilder()
-        listOfElements.forEach {
-            when (it) {
-                is String -> textToDisplay.append("$it\n")
-                is Currency -> textToDisplay.append("${it.name}\n")
-                is Language -> textToDisplay.append("${it.name}\n")
-            }
+        listOfStrings.forEach {
+            textToDisplay.append("$it\n")
+        }
+        text = textToDisplay.toString()
+    }
+
+    @JvmStatic
+    @BindingAdapter("listOfCurrencies")
+    fun TextView.listOfCurrencies(listOfCurrencies: List<LinkedTreeMap<String,String>>) {
+        val textToDisplay = StringBuilder()
+        listOfCurrencies.forEach {
+            textToDisplay.append("${it["name"]}\n")
+        }
+        text = textToDisplay.toString()
+    }
+
+    @JvmStatic
+    @BindingAdapter("listOfLanguages")
+    fun TextView.listOfLanguages(listOfLanguages: List<Language>) {
+        val textToDisplay = StringBuilder()
+        listOfLanguages.forEach {
+            textToDisplay.append("${it.name}\n")
         }
         text = textToDisplay.toString()
     }
