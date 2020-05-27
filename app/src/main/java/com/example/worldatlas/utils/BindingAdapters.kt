@@ -43,10 +43,10 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("listOfCurrencies")
-    fun TextView.listOfCurrencies(listOfCurrencies: List<LinkedTreeMap<String,String>>) {
+    fun TextView.listOfCurrencies(listOfCurrencies: List<Currency>) {
         val textToDisplay = StringBuilder()
         listOfCurrencies.forEach {
-            textToDisplay.append("${it["name"]}\n")
+            textToDisplay.append("${it.name}\n")
         }
         text = textToDisplay.toString()
     }
