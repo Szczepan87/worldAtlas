@@ -22,7 +22,7 @@ object BindingAdapters {
             GlideApp.with(this.context)
                 .`as`(PictureDrawable::class.java)
                 .error(R.drawable.ic_error_red_200dp)
-                .centerInside()
+                .centerCrop()
                 .listener(SvgSoftwareLayerSetter())
 
         val uri = Uri.parse(imageUrl)
