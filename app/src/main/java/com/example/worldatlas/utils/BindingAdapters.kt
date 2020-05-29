@@ -22,7 +22,6 @@ object BindingAdapters {
             GlideApp.with(this.context)
                 .`as`(PictureDrawable::class.java)
                 .error(R.drawable.ic_error_red_200dp)
-                .override(200, 100)
                 .centerInside()
                 .listener(SvgSoftwareLayerSetter())
 
