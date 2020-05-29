@@ -36,6 +36,7 @@ class CountriesFragment : ScopedFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val continentName = arguments.continent
+        Log.d("COUNTRIES FRAGMENT", "THE CONTINENT NAME IS: $continentName")
         worldAtlasViewModel.getCountriesByContinent(continentName)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_countries, container, false)

@@ -13,6 +13,7 @@ class CountryRecyclerAdapter : RecyclerView.Adapter<CountryRecyclerAdapter.Count
     var onCountryClickListener: OnCountryClickListener? = null
 
     fun updateList(listOfCountries: List<Country>) {
+        countriesList.clear()
         countriesList.addAll(listOfCountries)
         notifyDataSetChanged()
     }

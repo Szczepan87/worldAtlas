@@ -1,5 +1,6 @@
 package com.example.worldatlas.ui
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.worldatlas.model.Country
 import com.example.worldatlas.repository.CountriesRepositoryImpl
@@ -18,6 +19,7 @@ class WorldAtlasViewModel(private val countriesRepository: CountriesRepositoryIm
         get() = _exception
 
     fun getCountriesByContinent(continentName: String) {
+        Log.d("VIEW MODEL", "UPDATING COUNTRIES REPOSITORY BY CONTINENT WITH: $continentName")
             countriesRepository.retrieveCountriesByContinent(continentName)
         // call repository and update by continent ok
         // observe live data changes in Fragment

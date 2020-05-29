@@ -67,7 +67,7 @@ class CountriesRepositoryImpl(
         }
 
     override fun retrieveCountriesByContinent(continentName: String) {
-        Log.d("REPOSITORY", "retrieveCountriesByContinent() CALLED")
+        Log.d("REPOSITORY", "retrieveCountriesByContinent() CALLED CONTINENT: $continentName")
         CoroutineScope(IO).launch {
             val countriesList =
                 withContext(IO) { getCountriesListDatabase() }
