@@ -17,4 +17,6 @@
     <string name="borders_with">Borders with:</string>
     <string name="currencies">Currencies:</string>
     <string name="languages">Languages:</string>
+    <string name="no_data">No data!</string>
+    <string name="no_db_detected">No database detected! Please turn on your internet connection and restart app.</string>
 </resources>

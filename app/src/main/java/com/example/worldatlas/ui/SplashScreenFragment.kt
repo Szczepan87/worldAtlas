@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentSplashScreenBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.scope.lifecycleScope
@@ -49,13 +51,18 @@ class SplashScreenFragment : ScopedFragment() {
                     findNavController().navigate(action)
                     Log.d("MOVED TO CONTINENT", "FRAGMENT")
                     Log.d("FRAGMENT VM LIST FIRST ENTRY", "${allCountries.value?.first()}")
-                } else if ( it.isNullOrEmpty()){
+                } else if (it.isNullOrEmpty()) {
                     Log.d("SPLASH SCREEN", "LIST IS NULL OR EMPTY: ${it.isNullOrEmpty()}")
-                    Snackbar.make(
-                        this@SplashScreenFragment.binding.splashScreenLayout,
-                        "Empty database",
-                        Snackbar.LENGTH_LONG
+                    val dialog = NoInternetDialog()
+                    dialog.show(
+                        requireActivity().supportFragmentManager,
+                        "NO INTERNET DIALOG"
                     )
+                    dialog.onOKDialogButtonClickListener =
+                        { pressed -> if (pressed)
+                            // to kill app entirely even form back log
+                            android.os.Process.killProcess(android.os.Process.myPid())
+                        }
                 }
             })
         }
