@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 
 import com.example.worldatlas.R
 import com.example.worldatlas.databinding.FragmentSplashScreenBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.scope.lifecycleScope
@@ -48,14 +49,15 @@ class SplashScreenFragment : ScopedFragment() {
                     findNavController().navigate(action)
                     Log.d("MOVED TO CONTINENT", "FRAGMENT")
                     Log.d("FRAGMENT VM LIST FIRST ENTRY", "${allCountries.value?.first()}")
+                } else if ( it.isNullOrEmpty()){
+                    Log.d("SPLASH SCREEN", "LIST IS NULL OR EMPTY: ${it.isNullOrEmpty()}")
+                    Snackbar.make(
+                        this@SplashScreenFragment.binding.splashScreenLayout,
+                        "Empty database",
+                        Snackbar.LENGTH_LONG
+                    )
                 }
             })
         }
-
-        Log.d("FRAGMENT DATABASE ERROR", "${worldAtlasViewModel.exception.value?.message}")
-
-        worldAtlasViewModel.exception.observe(viewLifecycleOwner, Observer {
-            // TODO launch dialog with error info and dismiss app
-        })
     }
 }

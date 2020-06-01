@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.lang.Exception
 
 class CountriesRepositoryImpl(
     private val countriesApiService: CountriesApiService,
@@ -31,9 +32,14 @@ class CountriesRepositoryImpl(
                 withContext(IO) { getCountriesListDatabase().isEmpty() }
             if (isDatabaseEmpty) {
                 Log.d("REPOSITORY", "DATABASE IS EMPTY!!!")
-                val remoteList = getCountriesListFromApi()
+                var remoteList = listOf<Country>()
+                try {
+                    remoteList = getCountriesListFromApi()
+                } catch (e:Exception){
+                    Log.e("REPOSITORY", "EMPTY DATABASE, CAN'T UPLOAD FROM REMOTE SOURCE")
+                }
                 saveCountriesToDatabase(remoteList)
-                Log.d("REPOSITORY", "UPDATING DATABASE WITH: ${remoteList.first().name}")
+//                Log.d("REPOSITORY", "UPDATING DATABASE WITH: ${remoteList.first().name}")
             }
             val listFromDatabase: List<Country> =
                 withContext(IO) {
@@ -41,7 +47,7 @@ class CountriesRepositoryImpl(
                 }
             _allCountries.postValue(listFromDatabase)
             Log.d("REPOSITORY", "RETRIEVING DATA FROM DATABASE")
-            Log.d("REPOSITORY", "FIRST ENTRY IN DATABASE IS ${listFromDatabase.first()?.name}")
+//            Log.d("REPOSITORY", "FIRST ENTRY IN DATABASE IS ${listFromDatabase.first()?.name}")
         }
         Log.d("REPOSITORY", "INIT BLOC CALLED")
     }
@@ -78,7 +84,7 @@ class CountriesRepositoryImpl(
                     }
                 }
             _countriesByContinent.postValue(filteredList)
-            Log.d("REPOSITORY", "POSTING TO COUNTRIES BY CONTINENT ${filteredList.first().name}")
+//            Log.d("REPOSITORY", "POSTING TO COUNTRIES BY CONTINENT ${filteredList.first().name}")
         }
     }
 }
